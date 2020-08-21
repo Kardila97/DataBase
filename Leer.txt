@@ -1,0 +1,2 @@
+La carpeta diccionario de datos contiene 3 archivos .html, se puede visualizar desde cualquiera pero se recomienda
+visualizar directamente el index.html.
