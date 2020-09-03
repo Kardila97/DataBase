@@ -5,7 +5,7 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema mydbD
 -- -----------------------------------------------------
 -- -----------------------------------------------------
 -- Schema hospital_ent
@@ -14,7 +14,6 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema hospital_ent
 -- -----------------------------------------------------
-drop SCHEMA IF EXISTS hospital_ent;
 CREATE SCHEMA IF NOT EXISTS `hospital_ent` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci ;
 USE `hospital_ent` ;
 
@@ -22,7 +21,7 @@ USE `hospital_ent` ;
 -- Table `hospital_ent`.`eps`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hospital_ent`.`eps` (
-  `Codigo_EPS` VARCHAR(4) NOT NULL COMMENT 'Codigo interno de la EPS',
+  `Codigo_EPS` INT NOT NULL AUTO_INCREMENT COMMENT 'Codigo interno de la EPS',
   `Nombre_EPS` VARCHAR(45) NOT NULL COMMENT 'Nombre de la EPS',
   `Regimen_EPS` VARCHAR(1) NOT NULL COMMENT 'Aun por definir\n',
   PRIMARY KEY (`Codigo_EPS`))
@@ -36,7 +35,7 @@ COMMENT = 'Almacena los datos basicos de las EPS';
 -- Table `hospital_ent`.`Departamento`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hospital_ent`.`Departamento` (
-  `Id_Departamento` INT NOT NULL COMMENT 'Identificador de la tabla Departamento',
+  `Id_Departamento` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la tabla Departamento',
   `Nombre_Departamento` VARCHAR(200) NOT NULL COMMENT 'Nombre del Departamento',
   `Cod_Departamento` VARCHAR(10) NOT NULL COMMENT 'Codigo del Departamento (dado por el estado)',
   PRIMARY KEY (`Id_Departamento`),
@@ -48,7 +47,7 @@ ENGINE = InnoDB;
 -- Table `hospital_ent`.`Municipio`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hospital_ent`.`Municipio` (
-  `Id_Municipio` INT NOT NULL COMMENT 'Identificador del Municipio',
+  `Id_Municipio` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador del Municipio',
   `Nombre_Municipio` VARCHAR(45) NOT NULL COMMENT 'Nombre del Municipio',
   `Cod_Municipio` VARCHAR(10) NOT NULL COMMENT 'Codigo del Municipio (dado por el estado)',
   `Departamento_Id_Departamento` INT NOT NULL COMMENT 'Llave Foranea Departamento',
@@ -67,7 +66,7 @@ ENGINE = InnoDB;
 -- Table `hospital_ent`.`residencia`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hospital_ent`.`residencia` (
-  `Codigo_Resi` INT(11) NOT NULL COMMENT 'Identificador de residencia',
+  `Codigo_Resi` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador de residencia',
   `Direccion_Resi` VARCHAR(45) NOT NULL COMMENT 'Dirección de la casa, solo puede existir una vez esa dirección y se asigna a cada individuo que pertenezca a esa casa',
   `Zona_Residencia` VARCHAR(1) NULL COMMENT 'Zona de residencia\nU  => Urbano\nR  => Rural',
   `Municipio_Id_Municipio` INT NOT NULL COMMENT 'Llave Foranea del Municipio (propio de la tabla)',
@@ -90,7 +89,7 @@ COMMENT = 'Almacena los datos de residencia para asignarlo a uno o mas personas'
 -- Table `hospital_ent`.`persona`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hospital_ent`.`persona` (
-  `Id_Persona` INT NOT NULL COMMENT 'Identificador de la tabla persona',
+  `Id_Persona` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la tabla persona',
   `Documento_Pers` INT(10) NOT NULL COMMENT 'Documento de la persona dentro de la base de datos, es unico, puede ser la cedula o tarjeta de identidad',
   `Tipo_Doc_Pers` VARCHAR(2) NOT NULL COMMENT 'Tipo de documento de una persona\nTI => Tarjeta de indentidad\nCC => Cedula de ciudadania ',
   `Fecha_Nac_Pers` DATE NOT NULL COMMENT 'Fecha de nacimiento de la persona',
@@ -128,7 +127,7 @@ COMMENT = 'Almacena los datos basicos de una persona';
 -- Table `hospital_ent`.`Usuario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hospital_ent`.`Usuario` (
-  `Id_Usuario` INT NOT NULL COMMENT 'Id del usuario que se logea en el aplicativo',
+  `Id_Usuario` INT NOT NULL AUTO_INCREMENT COMMENT 'Id del usuario que se logea en el aplicativo',
   `Usuario` VARCHAR(45) NOT NULL COMMENT 'Nombre de usuario',
   `Password` VARCHAR(260) NOT NULL COMMENT 'Contraseña de usuario (se encripta con el algoritmo AES key=0x1ddce642ed4f4f26ec2e64eb0ec88a811e13b15fbc88800c) \n\nCodigo para crear la Key \"select UNHEX(SHA2(\'PyP San Gil\',512))\"\n\n\nEjemplo Encriptar Hola\nselect AES_ENCRYPT(\'hola\',0x1ddce642ed4f4f26ec2e64eb0ec88a811e13b15fbc88800c); \n\nEjemplo Desencriptar Hola\nselect AES_DECRYPT(0x3b3e67b6e015cd832aaf271326ac4a83,0x1ddce642ed4f4f26ec2e64eb0ec88a811e13b15fbc88800c);',
   `persona_Id_Persona` INT NOT NULL COMMENT 'Llave Foranea Persona',
@@ -147,7 +146,7 @@ ENGINE = InnoDB;
 -- Table `hospital_ent`.`ROL`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hospital_ent`.`ROL` (
-  `Id_Rol` INT NOT NULL COMMENT 'Identificador de ROL',
+  `Id_Rol` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador de ROL',
   `Rol_Rol` VARCHAR(45) NOT NULL COMMENT 'Rol que desempeña:\nEnfermera/o\nJefe Enfermería\nDoctor',
   PRIMARY KEY (`Id_Rol`))
 ENGINE = InnoDB;
@@ -179,8 +178,8 @@ ENGINE = InnoDB;
 -- Table `hospital_ent`.`ent`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hospital_ent`.`ent` (
-  `Id_Enfermedad` VARCHAR(6) NOT NULL COMMENT 'Codigo asignado a la enfermedad',
-  `Codigo_Enfermedad` VARCHAR(10) NOT NULL,
+  `Id_Enfermedad` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador propio de la base de datos\n',
+  `Codigo_Enfermedad` VARCHAR(10) NOT NULL COMMENT 'Codigo internacional asignado a la enfermedad',
   `Nombre_Enfer` VARCHAR(100) NOT NULL COMMENT 'Nombre de la enfermedad',
   `Descripcion_Enfer` VARCHAR(400) NOT NULL COMMENT 'Descripcion corta o larga de la enfermedad',
   PRIMARY KEY (`Id_Enfermedad`))
@@ -191,49 +190,6 @@ COMMENT = 'Enfermedad Cronica no transmisible';
 
 
 -- -----------------------------------------------------
--- Table `hospital_ent`.`medicamento`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `hospital_ent`.`medicamento` (
-  `Id_Medicamento` VARCHAR(10) NOT NULL COMMENT 'Codigo con el cual se guarda el medicamento',
-  `Codigo_Medicamento` VARCHAR(10) NOT NULL COMMENT 'Codigo del medicamento (como lo registran en el sistema)',
-  `Nombre_Med` VARCHAR(150) NOT NULL COMMENT 'Nombre del medicamento',
-  `Precio_Med` DOUBLE NOT NULL COMMENT 'Precio de coste para el cliente, es el valor que debe pagar el cliente por el medicamento',
-  `Descripción_Med` VARCHAR(400) NOT NULL COMMENT 'Descripción del medicamento, puede ser una explicación sencilla del porque se usa ese o en que casos se usa',
-  `Concentración_Med` VARCHAR(4) NOT NULL COMMENT 'Concentración del medicamento ejemplo: 100mg o 40mg',
-  PRIMARY KEY (`Id_Medicamento`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_spanish_ci
-COMMENT = 'Almacena los medicamentos que se han suministrado a los pacientes.';
-
-
--- -----------------------------------------------------
--- Table `hospital_ent`.`ent_medicamento`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `hospital_ent`.`ent_medicamento` (
-  `ent_Codigo_Enfer` VARCHAR(6) NOT NULL COMMENT 'LLave foranea Enfermedad',
-  `medicamento_Codigo_Med` VARCHAR(6) NOT NULL COMMENT 'Llave foranea Medicamento',
-  `Estado_medicamento` VARCHAR(1) NOT NULL COMMENT 'Estado del medicamento aplicado a esa enfermedad\n1. significa que el paciente se sigue tratando con ese medicamento\n0 significa que el paciente ya no se trata con ese medicamento',
-  PRIMARY KEY (`ent_Codigo_Enfer`, `medicamento_Codigo_Med`),
-  INDEX `fk_ent_has_medicamento_medicamento1_idx` (`medicamento_Codigo_Med` ASC) ,
-  INDEX `fk_ent_has_medicamento_ent1_idx` (`ent_Codigo_Enfer` ASC) ,
-  CONSTRAINT `fk_ent_has_medicamento_ent1`
-    FOREIGN KEY (`ent_Codigo_Enfer`)
-    REFERENCES `hospital_ent`.`ent` (`Id_Enfermedad`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ent_has_medicamento_medicamento1`
-    FOREIGN KEY (`medicamento_Codigo_Med`)
-    REFERENCES `hospital_ent`.`medicamento` (`Id_Medicamento`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_spanish_ci
-COMMENT = 'Almacena los datos medicamentos por enfermedad';
-
-
--- -----------------------------------------------------
 -- Table `hospital_ent`.`ent_persona`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hospital_ent`.`ent_persona` (
@@ -241,12 +197,12 @@ CREATE TABLE IF NOT EXISTS `hospital_ent`.`ent_persona` (
   `persona_Id_Persona` INT NOT NULL COMMENT 'Llave Foranea PERSONA',
   `Fecha_Diagnostico` DATETIME NOT NULL COMMENT 'Fecha en la que se diagnostico la enfermedad del paciente',
   `HTA_CIE10(I10-I159)` VARCHAR(1) NULL COMMENT 'El paciente tiene diagnóstico confirmado de Hipertensión Arterial -HTA (CIE-10 con códigos entre I10-I159) (solo se llena para la Hipertensión Arterial)\nS => Si\nN => No',
-  `ent_medicamento_ent_Codigo_Enfer` VARCHAR(6) NOT NULL,
-  `ent_medicamento_medicamento_Codigo_Med` VARCHAR(6) NOT NULL,
-  PRIMARY KEY (`ent_Codigo_Enfer`, `persona_Id_Persona`, `ent_medicamento_ent_Codigo_Enfer`, `ent_medicamento_medicamento_Codigo_Med`),
+  `Insulina` VARCHAR(1) NULL COMMENT 'Si el paciente es insulino dependiente, solo se registra para la Diabetes\nS=>SI\nN=>NO\n',
+  `Dislipidemia` VARCHAR(1) NULL COMMENT 'Se registra si el paciente tiene dislipidemia, se puede registrar con el diagnostico de DIABETES o con los resultados del paraclinico de COLESTEROL y TRIGLICERIDOS\nS=>SI\nN=>NO',
+  `Fecha_Ingreso_RCV` DATETIME NULL COMMENT 'Fecha de Ingreso al programa de Riegos CardioVascular (RCV). Solo se registra para la Hipertensión Arterial',
+  PRIMARY KEY (`ent_Codigo_Enfer`, `persona_Id_Persona`),
   INDEX `fk_ent_has_persona_persona1_idx` (`persona_Id_Persona` ASC) ,
   INDEX `fk_ent_has_persona_ent1_idx` (`ent_Codigo_Enfer` ASC) ,
-  INDEX `fk_ent_persona_ent_medicamento1_idx` (`ent_medicamento_ent_Codigo_Enfer` ASC, `ent_medicamento_medicamento_Codigo_Med` ASC) ,
   CONSTRAINT `fk_ent_has_persona_ent1`
     FOREIGN KEY (`ent_Codigo_Enfer`)
     REFERENCES `hospital_ent`.`ent` (`Id_Enfermedad`)
@@ -255,11 +211,6 @@ CREATE TABLE IF NOT EXISTS `hospital_ent`.`ent_persona` (
   CONSTRAINT `fk_ent_has_persona_persona1`
     FOREIGN KEY (`persona_Id_Persona`)
     REFERENCES `hospital_ent`.`persona` (`Id_Persona`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ent_persona_ent_medicamento1`
-    FOREIGN KEY (`ent_medicamento_ent_Codigo_Enfer` , `ent_medicamento_medicamento_Codigo_Med`)
-    REFERENCES `hospital_ent`.`ent_medicamento` (`ent_Codigo_Enfer` , `medicamento_Codigo_Med`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -271,17 +222,45 @@ COLLATE = utf8_spanish_ci;
 -- Table `hospital_ent`.`control`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hospital_ent`.`control` (
-  `Codigo_Cont` VARCHAR(6) NOT NULL COMMENT 'Codigo del control',
-  `Fecha_Cont` TIMESTAMP NULL DEFAULT NULL COMMENT 'Fecha en la que se realiza el control',
+  `Codigo_Cont` INT NOT NULL AUTO_INCREMENT COMMENT 'Codigo del control',
+  `Fecha_Cont` TIMESTAMP NOT NULL COMMENT 'Fecha en la que se realiza el control',
   `Fecha_Prox_Cont` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT 'Fecha Proximo control',
   `Edad_Paciente` FLOAT NOT NULL COMMENT 'Edad del paciente, calculado entre la fecha de nacimiento y la fecha del control, se debe mostrar al usuario antes de guardar los datos.',
   `Diagnostico_O` VARCHAR(45) NOT NULL COMMENT 'Diagnostico de Obesidad\nS => Si\nN => No',
-  `Fecha_Ingreso_RCV` DATETIME NULL COMMENT 'Fecha de Ingreso al programa de Riegos CardioVascular (RCV)',
+  `Cla_estadio_HTA` VARCHAR(45) NOT NULL COMMENT 'Clasificación estadio HTA',
+  `Talla` FLOAT NOT NULL COMMENT 'Talla de la persona (altura en metros)',
+  `Peso` FLOAT NOT NULL COMMENT 'Peso de la persona (en kg)',
+  `IMC` FLOAT NOT NULL COMMENT 'Indice de Masa Corporal es igual a peso / talla^2',
+  `Grado_Obesidad` VARCHAR(45) NOT NULL COMMENT 'Grado de obesidad asociado segun el IMC y la tabla internacional\n',
+  `TFG` FLOAT NOT NULL COMMENT 'Tasa de filtracion Glomerular (resultado del examen)',
+  `TA_S` FLOAT NOT NULL COMMENT 'Tensión Arterial Sistolica',
+  `TA_D` FLOAT NOT NULL COMMENT 'Tensión Arterial Distolica',
+  `C_TA` VARCHAR(1) NOT NULL COMMENT 'Criterio de hipertension arterial 140/90\nS => CONTROLADOS\nN => NO CONTROLADOS',
+  `Glucosa` FLOAT NOT NULL COMMENT 'Examen de glucosa',
+  `HDL` FLOAT NOT NULL COMMENT 'Colesterol bueno (tomado del examen)',
+  `LDL` FLOAT NOT NULL COMMENT 'Colesterol malo (tomado del examen)',
+  `Trigliceridos` FLOAT NOT NULL COMMENT 'Examen de trigliceridos',
+  `Creatinina` FLOAT NOT NULL COMMENT 'Examen de creatinina',
+  `Fecha_Creatinina` DATETIME NOT NULL COMMENT 'Fecha del examen de la creatinina',
+  `Hemoglobina_Glico` FLOAT NOT NULL COMMENT 'Examen Hemoglobina glicolisada',
+  `Fecha_Hemoglobina` DATETIME NOT NULL COMMENT 'Fecha del examen de la Hemoglobina Glicosilada',
+  `Albuminuria` FLOAT NOT NULL COMMENT 'Examen de la Albuminuria',
+  `Fecha_Albuminuria` DATETIME NOT NULL COMMENT 'Fecha del examen de Albuminuria',
+  `Fosforo` FLOAT NOT NULL COMMENT 'Examen del fosforo',
+  `Fecha_Fosforo` DATETIME NOT NULL COMMENT 'Fecha del examen de Fosforo',
+  `Tiroides` FLOAT NOT NULL COMMENT 'Examen de la tiroides',
+  `Fecha_Tiroides` DATETIME NOT NULL COMMENT 'Fecha del examen de tiroides',
+  `BUN` FLOAT NOT NULL COMMENT 'Examen del BUN',
+  `Fecha_BUN` DATETIME NOT NULL COMMENT 'Fecha del examen BUN',
+  `Perimeto_Abdominal` FLOAT NOT NULL COMMENT 'Perimetro abdominal del paciente en cm',
+  `IECA` VARCHAR(1) NOT NULL COMMENT 'Inhibidor de la Enzima convertidora de Angiotensina\nEl paciente recibe medicamentos terminados en \"pril\"\nS=> SI\nN=> NO',
+  `ARAII` VARCHAR(1) NOT NULL COMMENT 'El usuario recibe Antagonista de los receptores de angiotensina II\nEl paciente recibe medicamentos termiandos en \"tan\"\nS=> SI\nN=> NO',
+  `Micro_Albuminuria` VARCHAR(45) NOT NULL COMMENT 'Examen de MicroAlbuminuria',
+  `Fecha_Micro_Albu` DATETIME NOT NULL COMMENT 'Fecha del examen de MicroAlbuminuria',
   `Usuario_ROL_Usuario_Id_Usuario` INT NOT NULL COMMENT 'Llave Foranea Id del usuario que se realizo el control',
   `Usuario_ROL_ROL_Id_Rol` INT NOT NULL COMMENT 'Llave Foranea Rol del usuario que realizo el control',
   `ent_persona_ent_Codigo_Enfer` VARCHAR(6) NOT NULL COMMENT 'Llave Foranea Codigo de la enfermadad tratada',
   `ent_persona_persona_Id_Persona` INT NOT NULL COMMENT 'Llave Foranea Identificador de la persona (es propio de la base de datos)',
-  `Cla_estadio_HTA` VARCHAR(45) NULL COMMENT 'Clasificación estadio HTA',
   PRIMARY KEY (`Codigo_Cont`, `Usuario_ROL_Usuario_Id_Usuario`, `Usuario_ROL_ROL_Id_Rol`, `ent_persona_ent_Codigo_Enfer`, `ent_persona_persona_Id_Persona`),
   INDEX `fk_control_Usuario_ROL1_idx` (`Usuario_ROL_Usuario_Id_Usuario` ASC, `Usuario_ROL_ROL_Id_Rol` ASC) ,
   INDEX `fk_control_ent_persona1_idx` (`ent_persona_ent_Codigo_Enfer` ASC, `ent_persona_persona_Id_Persona` ASC) ,
@@ -302,10 +281,27 @@ COMMENT = 'Controles realizados al paciente';
 
 
 -- -----------------------------------------------------
+-- Table `hospital_ent`.`medicamento`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `hospital_ent`.`medicamento` (
+  `Id_Medicamento` INT NOT NULL AUTO_INCREMENT COMMENT 'Codigo con el cual se guarda el medicamento',
+  `Codigo_Medicamento` VARCHAR(10) NOT NULL COMMENT 'Codigo del medicamento (como lo registran en el sistema)',
+  `Nombre_Med` VARCHAR(150) NOT NULL COMMENT 'Nombre del medicamento',
+  `Precio_Med` DOUBLE NOT NULL COMMENT 'Precio de coste para el cliente, es el valor que debe pagar el cliente por el medicamento',
+  `Descripción_Med` VARCHAR(400) NOT NULL COMMENT 'Descripción del medicamento, puede ser una explicación sencilla del porque se usa ese o en que casos se usa',
+  `Concentración_Med` VARCHAR(4) NOT NULL COMMENT 'Concentración del medicamento ejemplo: 100mg o 40mg',
+  PRIMARY KEY (`Id_Medicamento`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci
+COMMENT = 'Almacena los medicamentos que se han suministrado a los pacientes.';
+
+
+-- -----------------------------------------------------
 -- Table `hospital_ent`.`Sesion`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hospital_ent`.`Sesion` (
-  `Id_Sesion` INT NOT NULL COMMENT 'Identificador de la tabla Sesion',
+  `Id_Sesion` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la tabla Sesion',
   `Fecha_Entrada` DATETIME NOT NULL COMMENT 'Fecha en la que el usuario inicia sesion en la base de datos',
   `Fecha_Salida` DATETIME NULL COMMENT 'Fecha en la que el usuario cierra sesion en la base de datos',
   `Tiempo_Total` VARCHAR(45) NULL COMMENT 'Tiempo total de la sesion, se da en minutos',
@@ -319,6 +315,34 @@ CREATE TABLE IF NOT EXISTS `hospital_ent`.`Sesion` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `hospital_ent`.`medicamento_control`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `hospital_ent`.`medicamento_control` (
+  `medicamento_Id_Medicamento` VARCHAR(10) NOT NULL COMMENT 'Llave foranea TABLA MEDICAMENTO',
+  `control_Codigo_Cont` VARCHAR(6) NOT NULL COMMENT 'LLAVE FORANEA TABLA CONTROL',
+  `control_Usuario_ROL_Usuario_Id_Usuario` INT NOT NULL COMMENT 'LLAVE FORANEA TABLA ROL_USUARIO',
+  `control_Usuario_ROL_ROL_Id_Rol` INT NOT NULL COMMENT 'LLAVE FORANEA TABLA ROL_USUARIO',
+  `control_ent_persona_ent_Codigo_Enfer` VARCHAR(6) NOT NULL COMMENT 'LLAVE FORANEA TABLA ENT (Enfermedad)',
+  `control_ent_persona_persona_Id_Persona` INT NOT NULL COMMENT 'LLAVE FORANEA TABLA PERSONA',
+  PRIMARY KEY (`medicamento_Id_Medicamento`, `control_Codigo_Cont`, `control_Usuario_ROL_Usuario_Id_Usuario`, `control_Usuario_ROL_ROL_Id_Rol`, `control_ent_persona_ent_Codigo_Enfer`, `control_ent_persona_persona_Id_Persona`),
+  INDEX `fk_medicamento_has_control_control1_idx` (`control_Codigo_Cont` ASC, `control_Usuario_ROL_Usuario_Id_Usuario` ASC, `control_Usuario_ROL_ROL_Id_Rol` ASC, `control_ent_persona_ent_Codigo_Enfer` ASC, `control_ent_persona_persona_Id_Persona` ASC) ,
+  INDEX `fk_medicamento_has_control_medicamento1_idx` (`medicamento_Id_Medicamento` ASC) ,
+  CONSTRAINT `fk_medicamento_has_control_medicamento1`
+    FOREIGN KEY (`medicamento_Id_Medicamento`)
+    REFERENCES `hospital_ent`.`medicamento` (`Id_Medicamento`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_medicamento_has_control_control1`
+    FOREIGN KEY (`control_Codigo_Cont` , `control_Usuario_ROL_Usuario_Id_Usuario` , `control_Usuario_ROL_ROL_Id_Rol` , `control_ent_persona_ent_Codigo_Enfer` , `control_ent_persona_persona_Id_Persona`)
+    REFERENCES `hospital_ent`.`control` (`Codigo_Cont` , `Usuario_ROL_Usuario_Id_Usuario` , `Usuario_ROL_ROL_Id_Rol` , `ent_persona_ent_Codigo_Enfer` , `ent_persona_persona_Id_Persona`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_spanish_ci;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
