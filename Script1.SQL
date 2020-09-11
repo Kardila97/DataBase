@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `hospital_ent`.`control` (
   `Talla` FLOAT NOT NULL COMMENT 'Talla de la persona (altura en metros)',
   `Peso` FLOAT NOT NULL COMMENT 'Peso de la persona (en kg)',
   `IMC` FLOAT NOT NULL COMMENT 'Indice de Masa Corporal es igual a peso / talla^2',
-  `Grado_Obesidad` VARCHAR(45) NOT NULL COMMENT 'Grado de obesidad asociado segun el IMC y la tabla internacional\n',
+  `Grado_Obesidad` ENUM("BAJO DE PESO", "NORMAL", "SOBREPESO", "OBESIDAD GRADO 1", "OBESIDAD GRADO 2", "OBESIDAD GRADO 3") NOT NULL COMMENT 'Grado de obesidad asociado segun el IMC y la tabla internacional\n0. BAJO DE PESO valores entre (0 y 18.4)\n0. NORMAL valores entre (18.5 y 24.9)\n1. SOBREPESO valores entre (25 y 29.9)\n2. OBESIDAD GRADO 1 valores entre (30 y 34.9)V\n3. OBESIDAD GRADO 2 valores entre (35 y 39.9)\n4. OBESIDAD GRADO 3 valores entre (>40)\n',
   `TFG` FLOAT NOT NULL COMMENT 'Tasa de filtracion Glomerular (resultado del examen)',
   `TA_S` FLOAT NOT NULL COMMENT 'Tensión Arterial Sistolica',
   `TA_D` FLOAT NOT NULL COMMENT 'Tensión Arterial Distolica',
